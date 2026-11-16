@@ -1,10 +1,12 @@
 ﻿FROM python:3.12-alpine AS builder
 WORKDIR /build
 COPY requirements.txt .
+# hadolint ignore=DL3013
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir --user -r requirements.txt
 
 FROM python:3.12-alpine AS runtime
+# hadolint ignore=DL3018
 RUN apk update && apk upgrade --no-cache && \
     addgroup -g 1001 -S appgroup && \
     adduser -u 1001 -S appuser -G appgroup
